@@ -1,9 +1,24 @@
 
 service: sls-visits-count
+
+custom: 
+  GREETER_DYNAMODB_TABLE: sls-visits-count-node
+
 provider:
   name: aws
   runtime: nodejs12.x
+  environment: ${self:custom}
 
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'dynamodb:GetItem'
+        - 'dynamodb:PutItem'
+      Resource: 
+        Fn::GetAtt:
+          - GreeterTable
+          - Arn
+        
 
 functions:
   hello:
@@ -15,4 +30,29 @@ functions:
         method: get
         cors: true
         private: true
-    
+  moi:
+    handler: handler.moi
+    description: "save the name to a database and says hi"
+    events:
+      - http:
+          path: moi
+          method: get
+          cors: true
+          private: true
+
+resources: # CloudFormation template syntax from here on.
+  Resources:
+    GreeterTable:
+      Type: AWS::DynamoDB::Table
+      BillingName: PAY_PER_REQUEST
+      Properties:
+        TableName: ${self:custom.GREETER_DYNAMODB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
