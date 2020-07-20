@@ -1,8 +1,9 @@
 
 service: sls-visits-count
 
-custom: 
-  GREETER_DYNAMODB_TABLE: sls-visits-count-node
+
+custom:
+  GREETER_DYNAMODB_TABLE: sls-unit-test-names-table
 
 provider:
   name: aws
@@ -46,19 +47,18 @@ functions:
         method: get
         cors: true
     
-
-resources: # CloudFormation template syntax from here on.
+resources:
   Resources:
     GreeterTable:
-      Type: AWS::DynamoDB::Table
+      Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: ${self:custom.GREETER_DYNAMODB_TABLE}
         AttributeDefinitions:
-          - AttributeName: name
-            AttributeType: S
+        - AttributeName: "name"
+          AttributeType: "S"
         KeySchema:
-          - AttributeName: name
-            KeyType: HASH
+        - AttributeName: "name"
+          KeyType: "HASH"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        TableName: ${self:custom.GREETER_DYNAMODB_TABLE}
