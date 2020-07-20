@@ -54,7 +54,6 @@ resources: # CloudFormation template syntax from here on.
   Resources:
     GreeterTable:
       Type: AWS::DynamoDB::Table
-      BillingMode: PAY_PER_REQUEST
       Properties:
         TableName: ${self:custom.GREETER_DYNAMODB_TABLE}
         AttributeDefinitions:
@@ -66,3 +65,4 @@ resources: # CloudFormation template syntax from here on.
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        BillingMode: PAY_PER_REQUEST
