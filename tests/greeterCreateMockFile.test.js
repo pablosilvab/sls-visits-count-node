@@ -10,3 +10,10 @@ describe('sayHelloAndRecord', () => {
     });
 });
 
+
+describe('getGreeting', () => {
+    test('get greeting',  async() => {
+        const result = await greeter.wasGreeted('Peter')
+        expect(result).toBe(true)
+    });
+});
