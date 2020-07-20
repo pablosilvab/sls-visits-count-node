@@ -9,3 +9,13 @@ module.exports.saveItem = async item => {
     }
     return await databaseManager.saveItem(params)
 } 
+
+module.exports.getItem = async name => {
+    const params = {
+        Key: {
+            name: name
+        },
+        TableName: process.env.GREETER_DYNAMODB_TABLE,
+    }
+    return await databaseManager.getItem(params)
+}

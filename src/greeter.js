@@ -18,10 +18,18 @@ module.exports.sayHelloAndRecord = async name => {
 }
 
 
+
 async function recordGreeting(name) {
     const item = {
         name: name,
         timestamp: Date.now(),
     }
     return await databaseManager.saveItem(item)
+}
+
+
+
+module.exports.wasGreeted = async name => {
+    const item = await databaseManager.getItem(name)
+    return (item !==undefined) ? true : false   
 }

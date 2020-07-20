@@ -39,6 +39,16 @@ functions:
           method: get
           cors: true
           private: true
+  wasGreeted:
+    handler: handler.wasGreeted
+    description: "return 200 if the name was created, 404 if not"
+    events:
+    - http:
+        path: greet
+        method: get
+        cors: true
+        private: true
+    
 
 resources: # CloudFormation template syntax from here on.
   Resources:
