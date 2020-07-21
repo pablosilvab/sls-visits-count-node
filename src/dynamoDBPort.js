@@ -19,3 +19,12 @@ module.exports.getItem = async name => {
     }
     return await databaseManager.getItem(params)
 }
+
+
+module.exports.recordVisit = async() => {
+    const params = {
+        TableName: process.env.VISITS_COUNT_DYNAMODB_TABLE,
+        Item: 1
+    }
+    return await databaseManager.saveItem(params)
+} 

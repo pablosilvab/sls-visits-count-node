@@ -4,6 +4,7 @@ service: sls-visits-count
 
 custom:
   GREETER_DYNAMODB_TABLE: sls-unit-test-names-table
+  VISITS_COUNT_DYNAMODB_TABLE: sls-visits-count-table
 
 provider:
   name: aws
@@ -15,9 +16,19 @@ provider:
       Action:
         - 'dynamodb:GetItem'
         - 'dynamodb:PutItem'
+        - 'dynamodb:UpdateItem'
       Resource: 
         Fn::GetAtt:
           - GreeterTable
+          - Arn
+    - Effect: 'Allow'
+      Action:
+        - 'dynamodb:GetItem'
+        - 'dynamodb:PutItem'
+        - 'dynamodb:UpdateItem'
+      Resource: 
+        Fn::GetAtt:
+          - VisitsTable
           - Arn
         
 
@@ -46,7 +57,15 @@ functions:
         path: greet
         method: get
         cors: true
-    
+  newVisit:
+    handler: handler.newVisit
+    description: "Add visit count"
+    events: 
+    - http:
+        path: newVisit
+        method: get
+        cors: true 
+
 resources:
   Resources:
     GreeterTable:
@@ -62,3 +81,17 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.GREETER_DYNAMODB_TABLE}
+    VisitsTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "visits"
+          AttributeType: "N"
+        KeySchema:
+        - AttributeName: "visits"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.VISITS_COUNT_DYNAMODB_TABLE}
+    

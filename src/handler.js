@@ -1,6 +1,7 @@
 "use strict";
 
 const greeter = require('./greeter')
+const visitCount = require('./visitCount')
 
 module.exports.hello = async (event) => {
   const name = event.queryStringParameters && event.queryStringParameters.name;
@@ -37,3 +38,11 @@ module.exports.wasGreeted = async (event) => {
     };
   }
 };
+
+module.exports.newVisit = async (event) => {
+  const result = await visitCount.newVisit();
+    return {
+      statusCode: 200,
+      body: result,
+    }
+}
