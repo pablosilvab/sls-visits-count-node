@@ -1,15 +1,22 @@
+# Test en Serverless
 
+El objetivo de este proyecto es realizar test en nuestras aplicaciones Serverless.
 
-run Tests
+## Requisitos
+
+* Node.js
+* Serverless framework
+* Cuenta AWS
+
+## Comandos
+
+Ejecutar nuestros tests
 
 ```
 npm test
 ```
 
-
-deploy 
-
-in ./src run
+Deploy  
 
 ```
 sls deploy
