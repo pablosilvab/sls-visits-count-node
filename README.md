@@ -16,6 +16,11 @@ Ejecutar nuestros tests
 npm test
 ```
 
+Tests de integración
+```
+npm run test-integration
+```
+
 Deploy  
 
 ```
